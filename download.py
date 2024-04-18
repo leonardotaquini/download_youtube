@@ -20,5 +20,5 @@ def download_mp3(url):
             print("An error occurred during download:", e)
 
 
-    except Exception as e: 
-        print("Unexpected error:", e)
+
+
