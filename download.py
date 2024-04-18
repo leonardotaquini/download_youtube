@@ -4,7 +4,7 @@ def download_mp3(url):
     try:
         link = str(url)
         yt = pytube.YouTube(link)
-        audio = yt.streams.filter(only_audio=True).first()
+        audio = yt.streams.filter(only_audio=True ).first()
 
         if audio is None:
             print("Audio stream not found for this video. Downloading may not be possible.")
@@ -20,3 +20,5 @@ def download_mp3(url):
 
     except Exception as e: 
         print("Unexpected error:", e)
+
+

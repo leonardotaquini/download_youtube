@@ -4,6 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from download import download_mp3
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+import io
+import os
 app = FastAPI()
 
 app.add_middleware(
@@ -32,3 +34,5 @@ async def download(req: Request):
 async def download(req: Request):
     filename = req.path_params.get("filename")
     return FileResponse(f'./static/{filename}', filename = f'{filename}', media_type="audio/mp3")
+
+
