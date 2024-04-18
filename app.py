@@ -5,6 +5,7 @@ from download import download_mp3
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 import os
+import threading
 app = FastAPI()
 host_url = os.getenv('RENDER_EXTERNAL_URL', 'http://localhost:8000')
 app.add_middleware(
@@ -16,6 +17,12 @@ app.add_middleware(
 )
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
+
+
+def eliminar(filename):
+    threading.Timer(5.0, os.remove, args=[f'./static/{filename}']).start()
+    print("Se elimino el archivo")
+    
 
 @app.post("/download")
 async def download(req: Request):
@@ -33,6 +40,7 @@ async def download(req: Request):
 @app.get("/download/{filename}")
 async def download(req: Request):
     filename = req.path_params.get("filename")
-    return FileResponse(f'./static/{filename}', filename = f'{filename}', media_type="audio/mp3")
-
+    respuesta = FileResponse(f'./static/{filename}', filename = f'{filename}', media_type="audio/mp3")
+    eliminar(filename)
+    return respuesta
 
