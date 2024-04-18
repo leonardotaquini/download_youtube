@@ -6,7 +6,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 import os
 app = FastAPI()
-url = os.getenv('RENDER_EXTERNAL_URL', 'http://localhost:8000')
+host_url = os.getenv('RENDER_EXTERNAL_URL', 'http://localhost:8000')
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -23,7 +23,8 @@ async def download(req: Request):
         body = await req.json()
         url = body["url"]
         filename =  ( f"{ download_mp3( url ) }.mp3" ).replace(" ", "%20")
-        return { "url_download": f"{ url }/download/{ filename }" } 
+        print({ "url_download": f"{ host_url }/download/{ filename }" } )
+        return { "url_download": f"{ host_url }/download/{ filename }" } 
         
     except Exception as e:
         print(e)
